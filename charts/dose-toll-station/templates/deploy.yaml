@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: toll-station
+spec:
+  replicas: 3  # You can adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: toll-station
+  template:
+    metadata:
+      labels:
+        app: toll-station
+    spec:
+      containers:
+      - name: toll-station
+        image: toll-station:0.1.0
+        ports:
+        - containerPort: 56433
+        - containerPort: 8888
+        command: ["./toll-station", "start"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: toll-station-metrics-service
+spec:
+  selector:
+    app: toll-station
+  ports:
+    - protocol: TCP
+      targetPort: 8888 
+      port: 80
+  type: NodePort  # You can change the service type as needed
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: toll-station-service
+spec:
+  selector:
+    app: toll-station
+  ports:
+    - protocol: TCP
+      targetPort: 56433
+      port: 80
+      nodePort: 30080
+  type: NodePort  # You can change the service type as needed
