@@ -40,14 +40,13 @@ endef
 export KIND_CONFIG_FILE_CREATOR = $(value get_kind_config_file)
 
 create-cluster: ## Cria cluster Kubernetes Kind 
-    ifneq ($(CLUSTER_EXISTS), $(CLUSTER_NAME))
-		@ eval "$$KIND_CONFIG_FILE_CREATOR" | kind create cluster --name $(CLUSTER_NAME) --config=-
-		@echo "#### Installing ingress-nginx ####"
-		kubectl apply --filename https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
-		kubectl wait --namespace ingress-nginx --for=condition=ready pod  --selector=app.kubernetes.io/component=controller --timeout=120s
-		@echo
-	else
-		kubectl cluster-info --context kind-$(CLUSTER_NAME)
+     ifneq ($(CLUSTER_EXISTS), $(CLUSTER_NAME))
+		  @ eval "$$KIND_CONFIG_FILE_CREATOR" | kind create cluster --name $(CLUSTER_NAME) --config=-
+		  @echo "#### Installing ingress-nginx and metrics server####"
+		  kubectl apply --filename https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
+		  kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+	  else
+	  	kind get clusters
     endif
 
 display-cluster: ## Exibe cluster Kubernetes Kind
