@@ -1,5 +1,5 @@
-CLUSTER_NAME=k8s-cluster
-CLUSTER_EXISTS=$(shell kind get clusters | grep $(CLUSTER_NAME))
+export CLUSTER_NAME=dose-na-nuvem
+export CLUSTER_EXISTS=$(shell kind get clusters | grep $(CLUSTER_NAME))
 
 # HELP
 # This will output the help for each task
@@ -40,18 +40,17 @@ endef
 export KIND_CONFIG_FILE_CREATOR = $(value get_kind_config_file)
 
 create-cluster: ## Cria cluster Kubernetes Kind 
-     ifneq ($(CLUSTER_EXISTS), $(CLUSTER_NAME))
-		  @ eval "$$KIND_CONFIG_FILE_CREATOR" | kind create cluster --name $(CLUSTER_NAME) --config=-
-		  @echo "#### Installing ingress-nginx and metrics server####"
-		  kubectl apply --filename https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
-		  kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-	  else
-	  	kind get clusters
-    endif
+ifneq ($(CLUSTER_EXISTS),$(CLUSTER_NAME))
+	@eval "$$KIND_CONFIG_FILE_CREATOR" | kind create cluster --name $(CLUSTER_NAME) --config=- --wait 5m
+	@echo "#### Installing ingress-nginx and metrics server####"
+	kubectl apply --filename https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
+	kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+else
+	kind get clusters
+endif
 
 display-cluster: ## Exibe cluster Kubernetes Kind
 	kind get clusters
 
 delete-cluster: ## Exclui cluster Kubernetes Kind
 	kind delete cluster --name ${CLUSTER_NAME}
-	docker system prune -f
