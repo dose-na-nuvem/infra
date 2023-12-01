@@ -1,6 +1,3 @@
-dose-toll-station:
-  name: teste-local
-# TODO: adicionar config do open telemetry collector
 opentelemetry-collector:
   mode: daemonset
   config:
