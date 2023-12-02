@@ -22,9 +22,6 @@ help              "Ajuda"
 create-cluster    "Cria cluster Kubernetes Kind"
 display-cluster   "Exibe cluster Kubernetes Kind"
 delete-cluster    "Exclui cluster Kubernetes Kind"
-install           "Instala os manifestos dos apps no cluster"
-uninstall         "Remove os apps instalados no cluster"
+apply             "Instala os manifestos dos apps no cluster"
+delete            "Remove os apps instalados no cluster"
 ```
-
-helm update
-helm install dose ./
