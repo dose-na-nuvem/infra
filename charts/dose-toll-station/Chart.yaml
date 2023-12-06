@@ -1,0 +1,13 @@
+apiVersion: v2
+appVersion: 0.1.0
+description:  TBD
+# home: 
+# icon: 
+maintainers:
+- name: luizgribeiro 
+name: dose-toll-station
+# sources:
+# - https://github.com/
+# - https://github.com/
+type: application
+version: 0.1.0

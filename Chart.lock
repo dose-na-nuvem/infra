@@ -1,0 +1,18 @@
+dependencies:
+- name: opentelemetry-collector
+  repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+  version: 0.72.0
+- name: jaeger
+  repository: https://jaegertracing.github.io/helm-charts
+  version: 0.71.17
+- name: prometheus
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 25.1.0
+- name: grafana
+  repository: https://grafana.github.io/helm-charts
+  version: 6.60.4
+- name: dose-toll-station
+  repository: ""
+  version: 0.1.0
+digest: sha256:d515acff91abdde612410d99af21f26c3a60c18e32981d2741a1d2a0138e41db
+generated: "2023-11-03T13:45:36.071610123-03:00"

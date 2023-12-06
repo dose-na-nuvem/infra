@@ -54,3 +54,11 @@ display-cluster: ## Exibe cluster Kubernetes Kind
 
 delete-cluster: ## Exclui cluster Kubernetes Kind
 	kind delete cluster --name ${CLUSTER_NAME}
+
+apply: ## Instala helm charts no cluster criado
+	helm install dose-na-nuvem ./
+
+delete: ## Remove apps instalados via helm charts
+	helm uninstall dose-na-nuvem
+
+PHONY: apply uninstall
